@@ -1,1 +1,1 @@
-# beta.genies.dapperlabs.com
+<h1>SUBDOMAIN TAKEOVER </h1>
