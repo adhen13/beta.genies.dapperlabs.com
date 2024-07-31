@@ -24,7 +24,7 @@
                     console.log("Header 'Location' tidak ditemukan.");
                 }
             } else {
-                console.log("Respons tidak berstatus 302.");
+                console.log("Respons tidak berstatus 302, status yang diterima:", response.status);
             }
         })
         .catch(error => console.log("Gagal mengambil link:", error));
