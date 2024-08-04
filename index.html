@@ -17,21 +17,25 @@
     <div id="content">Mengambil konten...</div> <!-- Tempat untuk menampilkan konten -->
 
     <script>
-        // Membuat permintaan fetch ke halaman yang ingin diambil datanya
-        fetch('https://www.recreation.gov/')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.text(); // Mengambil respons dalam format teks
-            })
-            .then(data => {
-                // Menampilkan konten di elemen dengan ID 'content'
-                document.getElementById('content').innerText = data;
-            })
-            .catch(error => {
-                document.getElementById('content').innerText = 'Gagal mengambil data: ' + error;
-            });
+       // Membuat permintaan fetch ke halaman yang ingin diambil datanya
+fetch('https://www.recreation.gov/', {
+    method: 'GET', // Metode permintaan
+    credentials: 'include' // Mengizinkan pengiriman cookie
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+    }
+    return response.text(); // Mengambil respons dalam format teks
+})
+.then(data => {
+    // Menampilkan konten di elemen dengan ID 'content'
+    document.getElementById('content').innerText = data;
+})
+.catch(error => {
+    document.getElementById('content').innerText = 'Gagal mengambil data: ' + error;
+});
+
     </script>
 </body>
 </html>
