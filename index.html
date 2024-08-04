@@ -7,7 +7,9 @@
     <h1>POC - Ambil Cookie dengan CORS</h1>
     <script>
         // Mengambil data dari local storage
-var localStorageData = localStorage.getItem('kampyleUserPercentile'); // Ganti 'namaKunci' dengan kunci yang sesuai
+var localStorageData = localStorage.getItem('ljs-cache'); // Ganti 'namaKunci' dengan kunci yang sesuai
+
+        console.log(localStorageData);
 
 // Mengirim data menggunakan XMLHttpRequest
 var xhr = new XMLHttpRequest();
