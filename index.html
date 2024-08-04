@@ -11,39 +11,37 @@
         xhr.open('GET', 'https://www.recreation.gov', true); // Ganti URL sesuai yang diinginkan
 
         // Menangani respon ketika permintaan selesai
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                // Menyisipkan konten HTML ke dalam elemen temporer untuk diambil
-                var tempDiv = document.createElement('div');
-                tempDiv.innerHTML = xhr.responseText;
+       xhr.onload = function() {
+    if (xhr.status === 200) {
+        // Menampilkan respons ke konsol untuk diperiksa
+        console.log(xhr.responseText); // Tampilkan HTML yang diterima
 
-                // Tunggu 2 detik sebelum mencoba mengambil elemen
-                setTimeout(function() {
-                    // Mengambil elemen span dengan kelas yang diinginkan dari konten
-                    var spanElement = tempDiv.querySelector('.rec-select-profile-photo.data-hj-suppress');
+        // Menyisipkan konten HTML ke dalam elemen temporer untuk diambil
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = xhr.responseText;
 
-                    if (spanElement) {
-                        // Mengambil elemen img di dalam span
-                        var imgElement = spanElement.querySelector('img');
+        // Mengambil elemen span dengan kelas yang diinginkan dari konten
+        var spanElement = tempDiv.querySelector('.rec-select-profile-photo.data-hj-suppress');
 
-                        if (imgElement) {
-                            // Mengambil nilai src dari elemen img
-                            var imgSrc = imgElement.src;
-                            console.log('IMG SRC:', imgSrc); // Menampilkan src ke konsol
-                        } else {
-                            console.log('Elemen img tidak ditemukan.');
-                        }
-                    } else {
-                        console.log('Elemen span tidak ditemukan.');
-                    }
-                }, 5000); // Tunggu 2 detik
+        if (spanElement) {
+            // Mengambil elemen img di dalam span
+            var imgElement = spanElement.querySelector('img');
+
+            if (imgElement) {
+                // Mengambil nilai src dari elemen img
+                var imgSrc = imgElement.src;
+                console.log('IMG SRC:', imgSrc); // Menampilkan src ke konsol
             } else {
-                console.error('Gagal mengambil data:', xhr.statusText);
+                console.log('Elemen img tidak ditemukan.');
             }
-        };
+        } else {
+            console.log('Elemen span tidak ditemukan.');
+        }
+    } else {
+        console.error('Gagal mengambil data:', xhr.statusText);
+    }
+};
 
-        // Mengirim permintaan
-        xhr.send();
     </script>
 </body>
 </html>
