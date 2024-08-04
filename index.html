@@ -6,19 +6,27 @@
 <body>
     <h1>POC - Ambil Cookie dengan CORS</h1>
     <script>
-       var xhr = new XMLHttpRequest();
-xhr.open("GET", "https://www.recreation.gov/", true);
-xhr.withCredentials = true; // Menyertakan cookie jika ada
+      // Membuat permintaan XHR ke halaman yang ingin diambil datanya
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://www.recreation.gov/account/profile', true); // Ganti URL sesuai yang diinginkan
 
-// Mengatur fungsi yang akan dijalankan ketika permintaan selesai
+// Menangani respon ketika permintaan selesai
 xhr.onload = function() {
     if (xhr.status === 200) {
-        var data = JSON.parse(xhr.responseText); // Mengambil data dalam format JSON
-        console.log('Data berhasil diambil:', data);
-        
-        // Menampilkan First Name ke dalam input
-        const firstNameInput =  document.querySelector('.rec-select-label.data-hj-suppress');
-        firstNameInput.value = data.first_name || ''; // Mengatur nilai input
+        // Menyisipkan konten HTML ke dalam elemen temporer untuk diambil
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = xhr.responseText;
+
+        // Mengambil elemen span dengan kelas yang diinginkan dari konten
+        var spanElement = tempDiv.querySelector('.rec-select-label.data-hj-suppress');
+
+        if (spanElement) {
+            // Mengambil isi dari elemen span
+            var spanContent = spanElement.textContent || spanElement.innerText;
+            console.log('Isi span:', spanContent); // Menampilkan isi ke konsol
+        } else {
+            console.log('Elemen span tidak ditemukan.');
+        }
     } else {
         console.error('Gagal mengambil data:', xhr.statusText);
     }
