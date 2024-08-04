@@ -1,47 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>POC - Ambil IMG SRC dari Halaman</title>
+    <title>Ambil Konten dari Halaman</title>
 </head>
 <body>
-    <h1>POC - Ambil IMG SRC dari Halaman</h1>
+    <h1>Ambil Konten dari Halaman</h1>
     <script>
-        // Membuat permintaan XHR ke halaman yang ingin diambil datanya
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://www.recreation.gov', true); // Ganti URL sesuai yang diinginkan
-
-        // Menangani respon ketika permintaan selesai
-       xhr.onload = function() {
-    if (xhr.status === 200) {
-        // Menampilkan respons ke konsol untuk diperiksa
-        console.log(xhr.responseText); // Tampilkan HTML yang diterima
-
-        // Menyisipkan konten HTML ke dalam elemen temporer untuk diambil
-        var tempDiv = document.createElement('div');
-        tempDiv.innerHTML = xhr.responseText;
-
-        // Mengambil elemen span dengan kelas yang diinginkan dari konten
-        var spanElement = tempDiv.querySelector('.rec-select-profile-photo.data-hj-suppress');
-
-        if (spanElement) {
-            // Mengambil elemen img di dalam span
-            var imgElement = spanElement.querySelector('img');
-
-            if (imgElement) {
-                // Mengambil nilai src dari elemen img
-                var imgSrc = imgElement.src;
-                console.log('IMG SRC:', imgSrc); // Menampilkan src ke konsol
-            } else {
-                console.log('Elemen img tidak ditemukan.');
-            }
-        } else {
-            console.log('Elemen span tidak ditemukan.');
-        }
-    } else {
-        console.error('Gagal mengambil data:', xhr.statusText);
-    }
-};
-
+        // Membuat permintaan fetch ke halaman yang ingin diambil datanya
+        fetch('https://www.recreation.gov/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text(); // Mengambil respons dalam format teks
+            })
+            .then(data => {
+                console.log('Konten Halaman:', data); // Menampilkan konten ke konsol
+                // Kamu bisa menyisipkan data ke dalam elemen DOM jika diperlukan
+                document.body.innerHTML += `<pre>${data}</pre>`; // Menampilkan konten di halaman
+            })
+            .catch(error => {
+                console.error('Gagal mengambil data:', error);
+            });
     </script>
 </body>
 </html>
