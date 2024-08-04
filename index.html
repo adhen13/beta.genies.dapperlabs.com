@@ -23,8 +23,8 @@
     <script>
         // Membuat permintaan fetch ke halaman yang ingin diambil datanya
         fetch('https://www.recreation.gov', {
-            method: 'GET',
-            credentials: 'include' // Mengizinkan pengiriman cookie
+            method: 'GET'
+           
         })
             .then(response => {
                 if (!response.ok) {
