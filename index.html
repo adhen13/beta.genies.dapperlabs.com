@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>POC - Ambil Data dengan XHR</title>
+    <title>POC - Ambil Elemen dari Halaman</title>
 </head>
 <body>
-    <h1>POC - Ambil Data dengan XHR</h1>
+    <h1>POC - Ambil Elemen dari Halaman</h1>
     <script>
         // Membuat permintaan XHR ke halaman yang ingin diambil datanya
         var xhr = new XMLHttpRequest();
@@ -17,20 +17,19 @@
                 var tempDiv = document.createElement('div');
                 tempDiv.innerHTML = xhr.responseText;
 
-                // Mengambil elemen span dengan kelas yang diinginkan dari konten
+                // Tunggu 2 detik sebelum mencoba mengambil elemen
                 setTimeout(function() {
-    var spanElement = tempDiv.querySelector('.rec-select-label.data-hj-suppress');
-    // Lanjutkan dengan kode lainnya
-}, 2000); // Tunggu 2 detik
+                    // Mengambil elemen span dengan kelas yang diinginkan dari konten
+                    var spanElement = tempDiv.querySelector('.rec-select-label.data-hj-suppress');
 
-
-                if (spanElement) {
-                    // Mengambil isi dari elemen span
-                    var spanContent = spanElement.textContent || spanElement.innerText;
-                    console.log('Isi span:', spanContent); // Menampilkan isi ke konsol
-                } else {
-                    console.log('Elemen span tidak ditemukan.');
-                }
+                    if (spanElement) {
+                        // Mengambil isi dari elemen span
+                        var spanContent = spanElement.textContent || spanElement.innerText;
+                        console.log('Isi span:', spanContent); // Menampilkan isi ke konsol
+                    } else {
+                        console.log('Elemen span tidak ditemukan.');
+                    }
+                }, 2000); // Tunggu 2 detik
             } else {
                 console.error('Gagal mengambil data:', xhr.statusText);
             }
@@ -41,4 +40,3 @@
     </script>
 </body>
 </html>
-
