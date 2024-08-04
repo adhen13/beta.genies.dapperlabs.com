@@ -18,7 +18,11 @@
                 tempDiv.innerHTML = xhr.responseText;
 
                 // Mengambil elemen span dengan kelas yang diinginkan dari konten
-                var spanElement = tempDiv.querySelector('.rec-select-label.data-hj-suppress');
+                setTimeout(function() {
+    var spanElement = tempDiv.querySelector('.rec-select-label.data-hj-suppress');
+    // Lanjutkan dengan kode lainnya
+}, 2000); // Tunggu 2 detik
+
 
                 if (spanElement) {
                     // Mengambil isi dari elemen span
