@@ -1,42 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>POC - Ambil Cookie dengan CORS</title>
+    <title>POC - Ambil Data dengan XHR</title>
 </head>
 <body>
-    <h1>POC - Ambil Cookie dengan CORS</h1>
+    <h1>POC - Ambil Data dengan XHR</h1>
     <script>
-      // Membuat permintaan XHR ke halaman yang ingin diambil datanya
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://www.recreation.gov', true); // Ganti URL sesuai yang diinginkan
+        // Membuat permintaan XHR ke halaman yang ingin diambil datanya
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://www.recreation.gov', true); // Ganti URL sesuai yang diinginkan
 
-// Menangani respon ketika permintaan selesai
-xhr.onload = function() {
-    if (xhr.status === 200) {
-        // Menyisipkan konten HTML ke dalam elemen temporer untuk diambil
-        var tempDiv = document.createElement('div');
-        tempDiv.innerHTML = xhr.responseText;
+        // Menangani respon ketika permintaan selesai
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // Menyisipkan konten HTML ke dalam elemen temporer untuk diambil
+                var tempDiv = document.createElement('div');
+                tempDiv.innerHTML = xhr.responseText;
 
-        // Mengambil elemen span dengan kelas yang diinginkan dari konten
-        var spanElement = tempDiv.querySelector('.rec-select-label.data-hj-suppress');
+                // Mengambil elemen span dengan kelas yang diinginkan dari konten
+                var spanElement = tempDiv.querySelector('.rec-select-label.data-hj-suppress');
 
-        if (spanElement) {
-            // Mengambil isi dari elemen span
-            var spanContent = spanElement.textContent || spanElement.innerText;
-            console.log('Isi span:', spanContent); // Menampilkan isi ke konsol
-        } else {
-            console.log('Elemen span tidak ditemukan.');
-        }
-    } else {
-        console.error('Gagal mengambil data:', xhr.statusText);
-    }
-};
+                if (spanElement) {
+                    // Mengambil isi dari elemen span
+                    var spanContent = spanElement.textContent || spanElement.innerText;
+                    console.log('Isi span:', spanContent); // Menampilkan isi ke konsol
+                } else {
+                    console.log('Elemen span tidak ditemukan.');
+                }
+            } else {
+                console.error('Gagal mengambil data:', xhr.statusText);
+            }
+        };
 
-// Mengirim permintaan
-xhr.send();
-
-
-
+        // Mengirim permintaan
+        xhr.send();
     </script>
 </body>
 </html>
+
