@@ -2,9 +2,20 @@
 <html>
 <head>
     <title>Ambil Konten dari Halaman</title>
+    <style>
+        #content {
+            white-space: pre-wrap; /* Mempertahankan format teks */
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-height: 500px;
+            overflow-y: auto; /* Menambahkan scroll jika konten terlalu panjang */
+        }
+    </style>
 </head>
 <body>
-    <h1>Ambil Konten dari Halaman</h1>
+    <h1>Konten dari Halaman Recreation.gov</h1>
+    <div id="content">Mengambil konten...</div> <!-- Tempat untuk menampilkan konten -->
+
     <script>
         // Membuat permintaan fetch ke halaman yang ingin diambil datanya
         fetch('https://www.recreation.gov/')
@@ -15,12 +26,11 @@
                 return response.text(); // Mengambil respons dalam format teks
             })
             .then(data => {
-                console.log('Konten Halaman:', data); // Menampilkan konten ke konsol
-                // Kamu bisa menyisipkan data ke dalam elemen DOM jika diperlukan
-                document.body.innerHTML += `<pre>${data}</pre>`; // Menampilkan konten di halaman
+                // Menampilkan konten di elemen dengan ID 'content'
+                document.getElementById('content').innerText = data;
             })
             .catch(error => {
-                console.error('Gagal mengambil data:', error);
+                document.getElementById('content').innerText = 'Gagal mengambil data: ' + error;
             });
     </script>
 </body>
