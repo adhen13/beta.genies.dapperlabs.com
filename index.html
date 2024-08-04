@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>POC - Ambil Elemen dari Halaman</title>
+    <title>POC - Ambil IMG SRC dari Halaman</title>
 </head>
 <body>
-    <h1>POC - Ambil Elemen dari Halaman</h1>
+    <h1>POC - Ambil IMG SRC dari Halaman</h1>
     <script>
         // Membuat permintaan XHR ke halaman yang ingin diambil datanya
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://www.recreation.gov', true); // Ganti URL sesuai yang diinginkan
+        xhr.open('GET', 'https://www.recreation.gov/account/profile', true); // Ganti URL sesuai yang diinginkan
 
         // Menangani respon ketika permintaan selesai
         xhr.onload = function() {
@@ -20,12 +20,19 @@
                 // Tunggu 2 detik sebelum mencoba mengambil elemen
                 setTimeout(function() {
                     // Mengambil elemen span dengan kelas yang diinginkan dari konten
-                    var spanElement = tempDiv.querySelector('.rec-select-label.data-hj-suppress');
+                    var spanElement = tempDiv.querySelector('.rec-select-profile-photo.data-hj-suppress');
 
                     if (spanElement) {
-                        // Mengambil isi dari elemen span
-                        var spanContent = spanElement.textContent || spanElement.innerText;
-                        console.log('Isi span:', spanContent); // Menampilkan isi ke konsol
+                        // Mengambil elemen img di dalam span
+                        var imgElement = spanElement.querySelector('img');
+
+                        if (imgElement) {
+                            // Mengambil nilai src dari elemen img
+                            var imgSrc = imgElement.src;
+                            console.log('IMG SRC:', imgSrc); // Menampilkan src ke konsol
+                        } else {
+                            console.log('Elemen img tidak ditemukan.');
+                        }
                     } else {
                         console.log('Elemen span tidak ditemukan.');
                     }
